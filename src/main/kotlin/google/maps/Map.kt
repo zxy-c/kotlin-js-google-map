@@ -2,12 +2,19 @@
 
 package google.maps
 
+import google.maps.places.PlaceGeometry
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 /***** MVC *****/
 open external class MVCObject {
-    fun bindTo(key: String, target: MVCObject, targetKey: String, noNotify: Boolean)
+    fun bindTo(
+        key: String,
+        target: MVCObject,
+        targetKey: String = definedExternally,
+        noNotify: Boolean = definedExternally
+    )
+
     fun changed(key: String)
     fun get(key: String): Any
     fun notify(key: String)
@@ -63,7 +70,8 @@ external class Map(mapDiv: Element, opts: MapOptions) : MVCObject {
 
 external interface MapOptions {
     var backgroundColor: String
-    var center: LatLng
+    // LatLngLiteral || LatLng
+    var center: Any
     var disableDefaultUI: Boolean
     var disableDoubleClickZoom: Boolean
     var draggable: Boolean
@@ -204,6 +212,14 @@ external class Marker(opts: MarkerOptions) : MVCObject {
     fun setTitle(title: String)
     fun setVisible(visible: Boolean)
     fun setZIndex(zIndex: Double)
+    fun setPlace(place: MarkerPlace)
+
+
+}
+
+external interface MarkerPlace {
+    var placeId: String
+    var location: LatLng
 }
 
 external class MarkerOptions {
@@ -963,7 +979,12 @@ external interface MouseEvent {
     var latLng: LatLng
 }
 
-external interface LatLng{
+external interface LatLng {
+    var lat:()->Double
+    var lng:()->Double
+}
+
+external interface LatLngLiteral{
     var lat: Double
     var lng: Double
 }

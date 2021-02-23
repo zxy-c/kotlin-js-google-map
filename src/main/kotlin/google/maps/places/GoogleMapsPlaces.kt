@@ -8,13 +8,15 @@ import org.w3c.dom.HTMLInputElement
 
 
 external class Autocomplete : MVCObject {
-    constructor (inputField: HTMLInputElement, opts: AutocompleteOptions)
+    constructor (inputField: HTMLInputElement, opts: AutocompleteOptions = definedExternally)
 
     fun getBounds(): LatLngBounds
     fun getPlace(): PlaceResult
     fun setBounds(bounds: LatLngBounds)
     fun setComponentRestrictions(restrictions: ComponentRestrictions)
     fun setTypes(types: Array<String>)
+    fun setFields(fields: Array<String>)
+    fun addListener(event: String, handler: () -> Unit)
 }
 
 external interface AutocompleteOptions {
@@ -32,18 +34,18 @@ external interface PlaceDetailsRequest {
 }
 
 external interface PlaceGeometry {
-    var location: LatLng
-    var viewport: LatLngBounds
+    var location: LatLng?
+    var viewport: LatLngBounds?
 }
 
 external interface PlaceResult {
     var address_components: Array<GeocoderAddressComponent>
     var formatted_address: String
     var formatted_phone_Double: String
-    var geometry: PlaceGeometry
+    var geometry: PlaceGeometry?
     var html_attributions: Array<String>
     var icon: String
-    var id: String
+    var place_id: String
     var international_phone_Double: String
     var name: String
     var rating: Double
